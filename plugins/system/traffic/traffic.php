@@ -62,17 +62,11 @@ class plgSystemtraffic extends JPlugin {
         function cssmin($http_url_reference = NULL, $cssmin = TRUE, $document = NULL) {
             // Generate stylesheet links
             //check if index.css does exist in cache folder
-            
-            
-            
             include_once JPATH_PLUGINS . '/system/traffic/cssmin.php';
             $index_css_pointer = JPATH_ROOT . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'index.'.$http_url_reference.'.css';
             $index_css_exists = is_file($index_css_pointer);
             $internal_sources = array();
             $external_sources = array();
-            
-            
-            
             foreach ($document->_styleSheets as $strSrc => $strAttr) {
                 if (preg_match("/http/i", $strSrc)) $external_sources[] = $strSrc;
                 else $internal_sources[] = $strSrc;
@@ -80,20 +74,16 @@ class plgSystemtraffic extends JPlugin {
             
             if ( ! $index_css_exists ) {
                 $handle = fopen($index_css_pointer, "w+");
-                $csstext = '';
-                Debug('css done!', TRUE);
                 foreach ($internal_sources as $strSrc) {
-                    //$content = file_get_contents(JPATH_ROOT . DIRECTORY_SEPARATOR . $strSrc);
-                    //$strSrc = explode("/", $strSrc);
-                    //array_pop($strSrc);
-                    //$strSrc = implode("/", $strSrc) . '/';
-                    //$content = preg_replace('/url\([\"\'](.*)[\"\']\)/i','url(\''.$strSrc.'$1\')',$content);
-                    
+                    $content = file_get_contents(JPATH_ROOT . DIRECTORY_SEPARATOR . $strSrc);
+                    $strSrc = explode("/", $strSrc);
+                    array_pop($strSrc);
+                    $strSrc = implode("/", $strSrc) . '/';
+                    $content = preg_replace('/url\([\"\'](.*)[\"\']\)/i','url(\''.$strSrc.'$1\')',$content);
+                    fwrite($handle, $content. "\n");
                 }
-                fwrite($handle, $csstext. "\n");
                 fclose($handle);
-                
-                //if (!$cssmin) file_put_contents($index_css_pointer, CssMin::minify(file_get_contents($index_css_pointer)));
+                if (!$cssmin) file_put_contents($index_css_pointer, CssMin::minify(file_get_contents($index_css_pointer)));
             }            
             $document->_styleSheets = array();
             $document->_styleSheets['cache/index.'.$http_url_reference.'.css'] = array(
