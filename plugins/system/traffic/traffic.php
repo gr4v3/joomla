@@ -124,7 +124,7 @@ class plgSystemtraffic extends JPlugin {
                 $handle = fopen($index_js_pointer, "w+");
                 foreach ($internal_sources as $strSrc) {
                     $content = file_get_contents(JPATH_ROOT . DIRECTORY_SEPARATOR . $strSrc);
-                    fwrite($handle, $content. ";");
+                    fwrite($handle, $content. "\n");
                 }
                 fclose($handle);
                 if (!$jsmin) file_put_contents($index_js_pointer, JShrink\Minifier::minify(file_get_contents($index_js_pointer)));
