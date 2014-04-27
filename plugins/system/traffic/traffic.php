@@ -37,7 +37,7 @@ class plgSystemtraffic extends JPlugin {
                     $no_js_cache = isset($_GET['nojscache']);
                     $no_js_min = isset($_GET['nojsmin']);
                     $no_css_cache = isset($_GET['nocsscache']);
-                    $no_css_min = isset($_GET['nocssmin']);
+                    $no_css_min = !isset($_GET['nocssmin']);
                     $http_url_reference = md5(JURI::current());
                     if ($reset_cache) {
                             $handle = dir(JPATH_ROOT . DIRECTORY_SEPARATOR .'cache/'); 
