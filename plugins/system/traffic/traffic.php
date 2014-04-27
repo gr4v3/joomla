@@ -39,10 +39,6 @@ class plgSystemtraffic extends JPlugin {
                     $no_css_cache = isset($_GET['nocsscache']);
                     $no_css_min = isset($_GET['nocssmin']);
                     $http_url_reference = md5(JURI::current());
-                    
-                    
-                    
-                    
                     if (is_file(JPATH_PLUGINS . '/system/traffic/cssmin.php') && ! $no_css_cache) $cssmin_include = TRUE; else $cssmin_include = FALSE;
                     if (is_file(JPATH_PLUGINS . '/system/traffic/jsmin.php') && ! $no_js_cache) $jsmin_include = TRUE; else $jsmin_include = FALSE;
                     if ($reset_cache) {
@@ -50,10 +46,8 @@ class plgSystemtraffic extends JPlugin {
                             while($entry = $handle->read()) { 
                                 if ($entry != '.' && $entry != '..') unlink(JPATH_ROOT . DIRECTORY_SEPARATOR . 'cache/' . $entry);
                             } 
-                            $handle->close(); 
-
+                            $handle->close();
                     }  
-                    
                     if ($cssmin_include) $this->cssmin($http_url_reference, $no_css_min, $document);
                     if ($jsmin_include) $this->jsmin($http_url_reference, $no_js_min, $document);
             }
